@@ -1,0 +1,187 @@
+﻿.container-responsive {
+    padding: 2rem 1rem;
+    background-color: #FAFCFF;
+    min-height: calc(100vh - 64px);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Encabezado */
+.page-header h1 {
+    color: #0B56A4;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+}
+
+/* Tarjeta contenedora principal estilo Glassmorphism suave */
+.main-transaction-card {
+    background: #FFFFFF;
+    border-radius: 24px;
+    border: 1px solid rgba(11, 86, 164, 0.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+    overflow: hidden;
+}
+
+/* Rediseño de Pestañas (Nav Pills) */
+.nav-pills-container {
+    background-color: #F1F5F9;
+    padding: 0.4rem;
+    border-bottom: 1px solid #E2E8F0;
+}
+
+.nav-pills .nav-link {
+    color: #475569;
+    font-weight: 600;
+    padding: 1rem;
+    border-radius: 16px;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: transparent;
+}
+
+    /* Estados activos según la pestaña seleccionada */
+    .nav-pills .nav-link.active-deposit {
+        background: linear-gradient(135deg, #CDEFE7 0%, #BBEBE0 100%);
+        color: #1E6B52;
+        box-shadow: 0 4px 12px rgba(46, 117, 89, 0.12);
+    }
+
+    .nav-pills .nav-link.active-withdraw {
+        background: linear-gradient(135deg, #FCE7CC 0%, #FAD3A2 100%);
+        color: #92400E;
+        box-shadow: 0 4px 12px rgba(146, 64, 14, 0.12);
+    }
+
+    .nav-pills .nav-link.active-transfer {
+        background: linear-gradient(135deg, #D5E6F7 0%, #BCD7F2 100%);
+        color: #0B56A4;
+        box-shadow: 0 4px 12px rgba(11, 86, 164, 0.12);
+    }
+
+/* Formulario e Iconos de Cabecera Interna */
+.transaction-form-panel {
+    padding: 2rem;
+}
+
+.form-icon-header {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+}
+
+.icon-deposit {
+    background: linear-gradient(135deg, #CDEFE7 0%, #E8FAF6 100%);
+    color: #1E6B52;
+}
+
+.icon-withdraw {
+    background: linear-gradient(135deg, #FCE7CC 0%, #FFFBEB 100%);
+    color: #92400E;
+}
+
+.icon-transfer {
+    background: linear-gradient(135deg, #D5E6F7 0%, #EDF4FC 100%);
+    color: #0B56A4;
+}
+
+/* Inputs Modernos */
+.custom-form-label {
+    color: #334155;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.modern-input {
+    border: 1px solid #E2E8F0;
+    background-color: #F8FAFC;
+    border-radius: 12px;
+    height: 50px;
+    padding: 0 1rem;
+    font-weight: 500;
+    color: #1E293B;
+    transition: all 0.2s ease;
+}
+
+    .modern-input:focus {
+        background-color: #FFFFFF;
+        border-color: #0B56A4;
+        box-shadow: 0 0 0 4px rgba(11, 86, 164, 0.08);
+        outline: none;
+    }
+
+/* Botones Premium Ajustados */
+.btn-modern-submit {
+    border-radius: 14px;
+    padding: 0.8rem 2rem;
+    font-weight: 600;
+    font-size: 1rem;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    transition: all 0.2s ease;
+}
+
+    .btn-modern-submit:hover:not(:disabled) {
+        transform: translateY(-2px);
+    }
+
+.btn-deposit {
+    background-color: #10B981;
+    color: white;
+}
+
+    .btn-deposit:hover:not(:disabled) {
+        background-color: #059669;
+        box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+    }
+
+.btn-withdraw {
+    background-color: #F59E0B;
+    color: white;
+}
+
+    .btn-withdraw:hover:not(:disabled) {
+        background-color: #D97706;
+        box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
+    }
+
+.btn-transfer {
+    background-color: #0B56A4;
+    color: white;
+}
+
+    .btn-transfer:hover:not(:disabled) {
+        background-color: #08427E;
+        box-shadow: 0 8px 20px rgba(11, 86, 164, 0.3);
+    }
+
+/* Alertas y loaders */
+.glass-loader {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(8px);
+    border-radius: 20px;
+    border: 1px solid #E2E8F0;
+}
+
+.modern-alert {
+    border-radius: 14px;
+    padding: 1rem 1.25rem;
+    border: none;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+}

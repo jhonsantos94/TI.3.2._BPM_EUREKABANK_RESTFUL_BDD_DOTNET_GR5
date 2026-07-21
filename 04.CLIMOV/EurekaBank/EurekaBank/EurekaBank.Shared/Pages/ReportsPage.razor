@@ -1,0 +1,366 @@
+﻿@page "/reports"
+
+@inject IReportService ReportService
+@inject SessionService SessionManager
+@inject NavigationManager NavigationManager
+
+<div class="container-responsive">
+    @if (SessionManager.IsLoggedIn)
+    {
+        <div class="page-header mb-4">
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <h1 class="text-responsive-lg mb-2">
+                        <i class="fa-solid fa-chart-pie me-3" style="font-size: 2rem; color: #0B56A4;"></i>
+                        Reporte de Movimientos
+                    </h1>
+                    <p class="text-muted text-responsive-md">
+                        Consulta el historial detallado ingresando el código de cuenta del cliente
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="search-section mb-4">
+            <div class="card search-card-modern">
+                <div class="card-header search-card-header">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <span>Filtros de Búsqueda</span>
+                    </div>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-12">
+                            <label for="accountCode" class="form-label custom-form-label">Código de Cuenta Bancaria</label>
+                            
+                            <div class="modern-input-group">
+
+                                <div class="input-group">
+                                    <span class="input-group-text modern-group-text">
+                                        <i class="fa-solid fa-building-columns"></i>
+                                    </span>
+
+                                    <input id="accountCode"
+                                           class="form-control modern-input"
+                                           @bind="CodigoCuenta"
+                                           placeholder="Ejemplo: 00100001"
+                                           maxlength="8"
+                                           @onkeypress="@(async (e) => { if (e.Key == "Enter" && !IsBusy) await CargarMovimientos(); })" />
+                                </div>
+
+                                <button class="btn btn-search-modern"
+                                        @onclick="CargarMovimientos"
+                                        disabled="@(IsBusy || string.IsNullOrWhiteSpace(CodigoCuenta))"
+                                        type="button">
+
+                                    @if (IsBusy)
+                                    {
+                                        <span class="spinner-border spinner-border-sm me-2"></span>
+                                        <span>Buscando...</span>
+                                    }
+                                    else
+                                    {
+                                        <i class="fa-solid fa-magnifying-glass me-2"></i>
+                                        <span>Buscar</span>
+                                    }
+
+                                </button>
+
+                            </div>
+                            <div class="custom-form-text">
+                                <i class="fa-solid fa-circle-info text-secondary"></i>
+                                <span>El código debe contener exactamente 8 dígitos numéricos.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @if (IsBusy)
+        {
+            <div class="text-center my-5 animate-fade-in">
+                <div class="card glass-panel-status d-inline-block">
+                    <div class="card-body text-center p-5">
+                        <div class="spinner-border text-primary mb-3" style="width: 2.5rem; height: 2.5rem;" role="status"></div>
+                        <h4 class="mb-2 fw-bold text-dark">Consultando registros...</h4>
+                        <p class="text-muted small mb-0">Por favor, espera mientras recuperamos la información del servidor.</p>
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (!IsBusy && Movimientos != null && Movimientos.Any())
+        {
+            <div class="results-section mb-4">
+                <div class="alert modern-alert-info d-flex justify-content-between align-items-center mb-4">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-circle-check text-success fs-5"></i>
+                        <span class="fw-bold">Registros cargados exitosamente</span>
+                    </div>
+                    <span class="badge bg-primary px-3 py-2" style="border-radius: 8px;">@Movimientos.Count() movimiento(s)</span>
+                </div>
+
+                <div class="d-none d-lg-block">
+                    <div class="card table-card-modern">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead class="text-white">
+                                    <tr>
+                                        <th scope="col">Nº Movimiento</th>
+                                        <th scope="col">Fecha de Operación</th>
+                                        <th scope="col">Tipo</th>
+                                        <th scope="col">Acción</th>
+                                        <th scope="col" class="text-end">Importe</th>
+                                        <th scope="col"><i class="fa-solid fa-user-tie me-2"></i>Empleado Responsable</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var mov in Movimientos)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @if (mov.NumeroMovimiento <= 0)
+                                                {
+                                                    <span class="text-muted font-monospace">-</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge badge-movement-id @GetMovementBadgeClass(mov.Accion)">
+                                                        #@mov.NumeroMovimiento
+                                                    </span>
+                                                }
+                                            </td>
+                                            <td>@mov.Fecha.ToString("dd/MM/yyyy")</td>
+                                            <td class="fw-semibold text-secondary">@mov.TipoMovimiento</td>
+                                            <td>
+                                                <span class="badge badge-action @GetActionClass(mov.Accion)">
+                                                    <i class="@GetActionIcon(mov.Accion)"></i>
+                                                    @mov.Accion
+                                                </span>
+                                            </td>
+                                            <td class="text-end fw-bold @GetAmountClass(mov.Accion)">@mov.Importe.ToString("C")</td>
+                                            <td>@mov.EmpleadoNombre</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-lg-none">
+                    <div class="row g-3">
+                        @foreach (var mov in Movimientos)
+                        {
+                            <div class="col-12">
+                                <div class="card mobile-card-modern">
+                                    <div class="card-header mobile-card-header d-flex justify-content-between align-items-center">
+                                        <span class="badge badge-movement-id">#@mov.NumeroMovimiento</span>
+                                        <small class="text-muted fw-semibold">@mov.Fecha.ToString("dd/MM/yyyy")</small>
+                                    </div>
+                                    <div class="card-body mobile-card-body">
+                                        <div class="row g-3">
+                                            <div class="col-6">
+                                                <small class="text-muted d-block mb-1">Tipo de Movimiento:</small>
+                                                <span class="fw-bold text-secondary small">@mov.TipoMovimiento</span>
+                                            </div>
+                                            <div class="col-6">
+                                                <small class="text-muted d-block mb-1">Acción ejecutada:</small>
+                                                <span class="badge badge-action @GetActionClass(mov.Accion)">
+                                                    <i class="@GetActionIcon(mov.Accion)"></i>@mov.Accion
+                                                </span>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="p-2 rounded d-flex justify-content-between align-items-center" style="background-color: #F8FAFC;">
+                                                    <small class="text-muted fw-semibold">Monto de transacción:</small>
+                                                    <span class="fw-bold fs-5 @GetAmountClass(mov.Accion)">@mov.Importe.ToString("C")</span>
+                                                </div>
+                                            </div>
+                                            @if (!string.IsNullOrEmpty(mov.EmpleadoNombre))
+                                            {
+                                                <div class="col-12 border-top pt-2" style="border-color: #F1F5F9 !important;">
+                                                    <small class="text-muted d-block mb-1">Atendido por:</small>
+                                                    <span class="text-dark small fw-medium"><i class="fa-solid fa-user-badge me-2 text-secondary"></i>@mov.EmpleadoNombre</span>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (!IsBusy && HaBuscado && !string.IsNullOrEmpty(ErrorMessage))
+        {
+            <div class="text-center my-5">
+                <div class="card glass-panel-status border-0 shadow-sm mx-auto" style="max-width: 500px;">
+                    <div class="card-body text-center p-4">
+                        <div class="text-danger mb-3">
+                            <i class="fa-solid fa-circle-xmark" style="font-size: 3.5rem;"></i>
+                        </div>
+                        <h4 class="fw-bold text-dark mb-2">Error de Consulta</h4>
+                        <p class="text-muted small">@ErrorMessage</p>
+                        <button class="btn btn-outline-primary rounded-pill px-4 mt-2 btn-sm" @onclick="() => { ErrorMessage = null; HaBuscado = false; }">
+                            <i class="fa-solid fa-rotate-left me-2"></i>Intentar de nuevo
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (!IsBusy && HaBuscado && string.IsNullOrEmpty(ErrorMessage) && (Movimientos == null || !Movimientos.Any()))
+        {
+            <div class="text-center my-5">
+                <div class="card glass-panel-status border-0 shadow-sm mx-auto" style="max-width: 500px;">
+                    <div class="card-body text-center p-5">
+                        <div class="text-muted mb-3">
+                            <i class="fa-regular fa-folder-open" style="font-size: 4rem; color: #94A3B8;"></i>
+                        </div>
+                        <h4 class="fw-bold text-dark mb-2">Sin Historial</h4>
+                        <p class="text-muted small">
+                            No se encontraron registros de movimientos asociados a la cuenta <strong class="text-dark">@CodigoCuenta</strong>.
+                        </p>
+                        @if (!string.IsNullOrEmpty(DebugInfo))
+                        {
+                            <div class="mt-3 bg-light p-2 rounded">
+                                <code class="text-muted small">@DebugInfo</code>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="text-center" style="min-height: 70vh; display: flex; align-items: center; justify-content: center;">
+            <div class="card glass-panel-status border-0 shadow-lg col-12 col-md-6 col-lg-4">
+                <div class="card-body text-center p-5">
+                    <div class="text-warning mb-4 d-inline-flex align-items-center justify-content-center"
+                         style="width: 80px; height: 80px; background-color: #FEF3C7; color: #D97706; border-radius: 50%;">
+                        <i class="fa-solid fa-triangle-exclamation fs-2"></i>
+                    </div>
+                    <h2 class="mb-3 fw-bold h4 text-dark">Acceso Restringido</h2>
+                    <p class="text-muted small mb-4">
+                        Se requiere una sesión de empleado activa para auditar y consultar los reportes del núcleo bancario.
+                    </p>
+                    <button class="btn btn-search-modern w-100 py-2.5 rounded-pill" @onclick="IrALogin">
+                        <i class="fa-solid fa-right-to-bracket me-2"></i>
+                        <span>Iniciar Sesión</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+@code {
+    private string CodigoCuenta { get; set; } = "";
+    private IEnumerable<MovementDto>? Movimientos { get; set; }
+    private bool IsBusy { get; set; }
+    private bool HaBuscado { get; set; }
+    private string? ErrorMessage { get; set; }
+    private string? DebugInfo { get; set; }
+
+    private async Task CargarMovimientos()
+    {
+        if (string.IsNullOrWhiteSpace(CodigoCuenta))
+        {
+            ErrorMessage = "Por favor, ingrese un código de cuenta válido.";
+            return;
+        }
+
+        IsBusy = true;
+        HaBuscado = true;
+        Movimientos = null;
+        ErrorMessage = null;
+        DebugInfo = null;
+        StateHasChanged();
+
+        try
+        {
+            System.Diagnostics.Debug.WriteLine($"=== REPORTS PAGE ===");
+            System.Diagnostics.Debug.WriteLine($"Starting search for account: {CodigoCuenta}");
+
+            Movimientos = await ReportService.ObtenerMovimientosAsync(CodigoCuenta);
+            
+            var count = Movimientos?.Count() ?? 0;
+            DebugInfo = $"Service returned {count} movements";
+            
+            System.Diagnostics.Debug.WriteLine($"ReportsPage: Received {count} movements");
+            
+            if (count == 0)
+            {
+                DebugInfo += " - Check debug console for more details";
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = "Error al obtener los movimientos: " + ex.Message;
+            DebugInfo = $"Exception: {ex.GetType().Name} - {ex.Message}";
+            System.Diagnostics.Debug.WriteLine($"ReportsPage Exception: {ex.Message}");
+            System.Diagnostics.Debug.WriteLine($"Stack trace: {ex.StackTrace}");
+        }
+        finally
+        {
+            IsBusy = false;
+            StateHasChanged();
+        }
+    }
+
+    private void IrALogin()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+
+    private string GetMovementBadgeClass(string? accion)
+    {
+        return accion?.ToUpper() switch
+        {
+            "INGRESO" => "movement-income",
+            "SALIDA" => "movement-expense",
+            "EGRESO" => "movement-expense",
+            _ => "movement-neutral"
+        };
+    }
+
+    // Mapeo dinámico corregido para los strings exactos de tu DB
+    private string GetActionClass(string? accion)
+    {
+        return accion?.ToUpper() switch
+        {
+            "INGRESO" => "badge-action-income",
+            "SALIDA" => "badge-action-expense",
+            "EGRESO" => "badge-action-expense",
+            _ => "badge-action-neutral" // Por si viene "Apertura de Cuenta"
+        };
+    }
+
+    private string GetActionIcon(string? accion)
+    {
+        return accion?.ToUpper() switch
+        {
+            "INGRESO" => "fa-solid fa-arrow-down-long me-1",
+            "SALIDA" => "fa-solid fa-arrow-up-long me-1",
+            "EGRESO" => "fa-solid fa-arrow-up-long me-1",
+            _ => "fa-solid fa-circle-info me-1"
+        };
+    }
+
+    private string GetAmountClass(string? accion)
+    {
+        return accion?.ToUpper() switch
+        {
+            "INGRESO" => "amount-income",
+            "SALIDA" => "amount-expense",
+            "EGRESO" => "amount-expense",
+            _ => "text-dark"
+        };
+    }
+}

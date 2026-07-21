@@ -1,0 +1,201 @@
+﻿@inherits LayoutComponentBase
+@inject ApiServiceManager ApiManager
+@inject SessionService SessionManager
+
+<style>
+    .navbar-mobile-safe {
+        padding-top: calc(0.5rem + env(safe-area-inset-top, 0px)) !important;
+    }
+    
+    .content-mobile-safe {
+        padding-top: calc(64px + env(safe-area-inset-top, 0px)) !important;
+        min-height: 100vh !important;
+    }
+</style>
+
+<div class="app-container">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top navbar-mobile-safe">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="@(SessionManager.IsLoggedIn ? "/home" : "/")">
+                <i class="fa-solid fa-building-columns me-2"></i>
+                EurekaBank
+            </a>
+
+            <button class="navbar-toggler" type="button" onclick="toggleMobileMenu()" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                @if (SessionManager.IsLoggedIn)
+                {
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <NavLink class="nav-link" href="home" Match="NavLinkMatch.All" @onclick="closeMobileMenu">
+                                <i class="fa-solid fa-house me-1"></i>
+                                Inicio
+                            </NavLink>
+                        </li>
+                        <li class="nav-item">
+                            <NavLink class="nav-link" href="transactions" @onclick="closeMobileMenu">
+                                <i class="fa-solid fa-money-check-dollar me-1"></i>
+                                Transacciones
+                            </NavLink>
+                        </li>
+                        <li class="nav-item">
+                            <NavLink class="nav-link" href="reports" @onclick="closeMobileMenu">
+                                <i class="fa-solid fa-chart-line me-1"></i>
+                                Reportes
+                            </NavLink>
+                        </li>
+                    </ul>
+                }
+                else
+                {
+                    <div class="navbar-nav me-auto"></div>
+                }
+
+                <div class="navbar-nav ms-auto d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-2 gap-lg-3">
+                    
+                    @if (!SessionManager.IsLoggedIn)
+                    {
+                        <div class="d-flex flex-column flex-lg-row gap-2 w-100 w-lg-auto">
+                            <div class="d-flex align-items-center gap-2">
+                                <label class="text-white small d-lg-none mb-0">Protocolo:</label>
+                                <select class="form-select form-select-sm" @bind="ApiManager.CurrentProtocol" style="min-width: 80px;">
+                                    <option value="@ApiProtocol.Rest">REST</option>
+                                    <option value="@ApiProtocol.Soap">SOAP</option>
+                                </select>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <label class="text-white small d-lg-none mb-0">Plataforma:</label>
+                                <select class="form-select form-select-sm" @bind="ApiManager.CurrentPlatform" style="min-width: 80px;">
+                                    <option value="@ApiPlatform.Java">Java</option>
+                                    <option value="@ApiPlatform.DotNet">.NET</option>
+                                </select>
+                            </div>
+                        </div>
+                    }
+                    @if (SessionManager.IsLoggedIn)
+                    {
+                        <div class="d-flex align-items-center text-white mt-2 mt-lg-0">
+                            <i class="fa-solid fa-user-tie me-2"></i>
+                            <span class="d-none d-md-inline">@SessionManager.CurrentUser?.Nombre</span>
+                        </div>
+
+                        <button class="btn btn-outline-light btn-sm mt-2 mt-lg-0" @onclick="Logout">
+                            <i class="fa-solid fa-right-from-bracket me-1"></i>
+                            <span class="d-none d-md-inline">Salir</span>
+                        </button>
+                    }
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    @if (SessionManager.IsLoggedIn)
+    {
+        <main class="main-content-logged content-mobile-safe">
+            <div class="container-fluid py-3">
+                @Body
+            </div>
+        </main>
+    }
+    else
+    {
+        <main class="main-content-login content-mobile-safe">
+            @Body
+        </main>
+    }
+</div>
+
+<script>
+    (function() {
+        const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+        const isMaui = userAgent.includes('MauiBlazorApp') ||
+                      window.location.protocol === 'ms-appx-web:' ||
+                      window.location.protocol === 'app:' ||
+                      typeof window.chrome === 'undefined' && typeof navigator.msSaveBlob === 'undefined';
+        
+        if (isMaui) {
+            document.body.classList.add('maui-app');
+            document.body.classList.add('blazor-server-app');
+        }
+
+        function ensureProperPadding() {
+            const mainElements = document.querySelectorAll('main[class*="main-content"]');
+            mainElements.forEach(main => {
+                main.style.paddingTop = 'calc(64px + env(safe-area-inset-top, 0px))';
+                main.style.minHeight = '100vh';
+                main.style.position = 'relative';
+                main.style.zIndex = '1';
+            });
+
+            const containers = document.querySelectorAll('.container-responsive');
+            containers.forEach(container => {
+                if (!container.style.paddingTop || container.style.paddingTop === '0px') {
+                    container.style.paddingTop = '1rem';
+                }
+            });
+        }
+
+        ensureProperPadding();
+        document.addEventListener('DOMContentLoaded', ensureProperPadding);
+        
+        setTimeout(ensureProperPadding, 100);
+        setTimeout(ensureProperPadding, 500);
+        setTimeout(ensureProperPadding, 1000);
+    })();
+
+    window.toggleMobileMenu = function() {
+        const navbarNav = document.getElementById('navbarNav');
+        const isExpanded = navbarNav.classList.contains('show');
+        
+        if (isExpanded) {
+            navbarNav.classList.remove('show');
+        } else {
+            navbarNav.classList.add('show');
+        }
+        
+        const toggleButton = document.querySelector('.navbar-toggler');
+        toggleButton.setAttribute('aria-expanded', !isExpanded);
+    };
+
+    window.closeMobileMenu = function() {
+        const navbarNav = document.getElementById('navbarNav');
+        navbarNav.classList.remove('show');
+        
+        const toggleButton = document.querySelector('.navbar-toggler');
+        toggleButton.setAttribute('aria-expanded', 'false');
+    };
+
+    document.addEventListener('click', function(event) {
+        const navbar = document.querySelector('.navbar');
+        const navbarNav = document.getElementById('navbarNav');
+        
+        if (navbar && !navbar.contains(event.target) && navbarNav.classList.contains('show')) {
+            window.closeMobileMenu();
+        }
+    });
+</script>
+
+@code {
+    protected override void OnInitialized()
+    {
+        ApiManager.PropertyChanged += async (s, e) => await InvokeAsync(StateHasChanged);
+        SessionManager.PropertyChanged += async (s, e) => await InvokeAsync(StateHasChanged);
+        
+        base.OnInitialized();
+    }
+
+    private void Logout()
+    {
+        SessionManager.Logout();
+        NavigationManager.NavigateTo("/", true);
+    }
+
+    private void closeMobileMenu()
+    {
+    }
+
+    [Inject] private NavigationManager NavigationManager { get; set; } = default!;
+}

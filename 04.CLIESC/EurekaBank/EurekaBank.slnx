@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="EurekaBank.Core/EurekaBank.Core.csproj" />
+  <Project Path="EurekaBank/EurekaBank.Shared/EurekaBank.Shared.csproj" />
+  <Project Path="EurekaBank/EurekaBank.Web/EurekaBank.Web.csproj" />
+  <Project Path="EurekaBank/EurekaBank/EurekaBank.csproj">
+    <Deploy Solution="Debug|*" />
+  </Project>
+</Solution>

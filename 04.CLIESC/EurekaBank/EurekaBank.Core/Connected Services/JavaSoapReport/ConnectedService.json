@@ -1,0 +1,16 @@
+{
+  "ExtendedData": {
+    "inputs": [
+      "http://10.40.16.33:8080/EurekaBank_Soap_Java_GR01/ServicioReporte?wsdl"
+    ],
+    "collectionTypes": [
+      "System.Array",
+      "System.Collections.Generic.Dictionary`2"
+    ],
+    "namespaceMappings": [
+      "*, JavaSoapReport"
+    ],
+    "targetFramework": "net10.0",
+    "typeReuseMode": "All"
+  }
+}

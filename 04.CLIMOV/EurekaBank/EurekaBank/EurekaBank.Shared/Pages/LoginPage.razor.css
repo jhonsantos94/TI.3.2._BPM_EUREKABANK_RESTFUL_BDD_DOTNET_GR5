@@ -1,0 +1,161 @@
+﻿.split-layout {
+    min-height: 100vh;
+    display: flex;
+    background-color: #FAFAFA;
+}
+
+.image-section {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+.bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.form-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Custom Input Styles */
+.custom-field {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+    .custom-field label {
+        position: absolute;
+        top: -10px;
+        left: 15px;
+        background: #FFFFFF;
+        padding: 0 5px;
+        font-size: 0.85rem;
+        color: #333;
+        z-index: 10;
+    }
+
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    background-color: #E8F1F2;
+    border: 1px solid #A0B2B5;
+    border-radius: 8px;
+    padding: 0 12px;
+    height: 55px;
+    transition: border-color 0.3s;
+}
+
+    .input-wrapper:focus-within {
+        border-color: #0078D4;
+    }
+
+    .input-wrapper input {
+        border: none;
+        background: transparent;
+        outline: none;
+        flex-grow: 1;
+        padding-left: 10px;
+        font-size: 1rem;
+        color: #000;
+        width: 100%;
+    }
+
+.icon-svg {
+    width: 20px;
+    height: 20px;
+    fill: #4A5568;
+}
+
+/* Error Alert */
+.custom-alert {
+    background-color: #FCE8E8;
+    border: 1px solid #F5C6C6;
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    color: #A91E1E;
+}
+
+/* Button */
+.btn-login {
+    background-color: #0A78BE;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    height: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s;
+}
+
+    .btn-login:hover:not(:disabled) {
+        background-color: #086099;
+    }
+
+    .btn-login:disabled {
+        background-color: #A0C8E2;
+        cursor: not-allowed;
+    }
+
+@media (max-width: 992px) {
+    /* 1. Cambiamos el flujo de izquierda-derecha a arriba-abajo */
+    .split-layout {
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    /* 2. En lugar de ocultar la imagen, le definimos una altura fija en pantallas delgadas */
+    .image-section {
+        flex: none; /* Desactivamos el crecimiento automático */
+        width: 100%; /* Que ocupe todo el ancho */
+        height: 35vh; /* Ocupará el 35% de la altura visible de la pantalla */
+        min-height: 250px; /* Evita que se aplaste demasiado en pantallas muy pequeñas */
+    }
+
+    /* 3. Ajustamos el contenedor del formulario para el modo vertical */
+    .form-section {
+        flex: 1;
+        padding: 2rem 1rem;
+        width: 100%;
+        max-width: 100%;
+        justify-content: start; /* Permite que el contenido fluya hacia abajo con scroll si es necesario */
+    }
+
+    /* Reducimos un poco el margen del título en móviles para ahorrar espacio */
+    .text-center.mb-4 {
+        margin-bottom: 1.5rem !important;
+    }
+}
+
+
+.app-icon {
+    font-size: 1.2rem; 
+    color: #14496B; 
+    min-width: 24px; 
+    text-align: center;
+}
+
+
+.btn-login .app-icon {
+    color: #FFFFFF;
+}

@@ -1,0 +1,153 @@
+﻿.dashboard-wrapper {
+    background-color: #FAFCFF;
+    min-height: calc(100vh - 64px);
+    padding-bottom: 4rem;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+}
+
+/* Panel de Bienvenida con Degradado Suave */
+.welcome-panel-modern {
+    background: linear-gradient(180deg, #EBF3FC 0%, #FAFCFF 100%);
+    padding: 3rem 0;
+    border-bottom: 1px solid rgba(11, 86, 164, 0.05);
+}
+
+/* Icono de Usuario Redondo */
+.avatar-circle {
+    width: 70px;
+    height: 70px;
+    background-color: #FFFFFF;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    color: #0B56A4;
+    box-shadow: 0 8px 16px rgba(11, 86, 164, 0.12);
+}
+
+/* Tarjeta Glassmorphism (Código de Empleado) */
+.employee-glass {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    border-radius: 16px;
+    padding: 1.2rem 1.8rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+    position: relative;
+    overflow: hidden;
+}
+
+    .employee-glass::after {
+        content: "EurekaBank";
+        position: absolute;
+        bottom: -5px;
+        right: 10px;
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: rgba(11, 86, 164, 0.04);
+        font-style: italic;
+        z-index: 0;
+    }
+
+.glass-content {
+    position: relative;
+    z-index: 1;
+}
+
+/* ===================================================
+   TARJETAS DE ACCIÓN RÁPIDA
+   =================================================== */
+.action-card-modern {
+    border-radius: 20px;
+    border: none;
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    text-decoration: none; /* Adiós subrayado azul de Bootstrap */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .action-card-modern:hover {
+        transform: translateY(-5px);
+    }
+
+/* Degradados y sombras de las tarjetas */
+.card-tx {
+    background: linear-gradient(135deg, #CDEFE7 0%, #E8FAF6 100%);
+    box-shadow: 0 10px 25px rgba(46, 117, 89, 0.1);
+}
+
+    .card-tx:hover {
+        box-shadow: 0 15px 35px rgba(46, 117, 89, 0.2);
+    }
+
+.card-rep {
+    background: linear-gradient(135deg, #D5E6F7 0%, #EDF4FC 100%);
+    box-shadow: 0 10px 25px rgba(11, 86, 164, 0.1);
+}
+
+    .card-rep:hover {
+        box-shadow: 0 15px 35px rgba(11, 86, 164, 0.2);
+    }
+
+.card-conf {
+    background: linear-gradient(135deg, #E2E8F0 0%, #F1F5F9 100%);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    opacity: 0.9;
+    cursor: not-allowed;
+}
+
+/* Textos internos */
+.card-title-modern {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    color: #1E293B;
+}
+
+.card-desc-modern {
+    font-size: 0.9rem;
+    color: #475569;
+    line-height: 1.5;
+    margin-bottom: 2rem;
+}
+
+.action-link-modern {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+/* Forzamos el color de los textos/links internos en cada tipo de tarjeta */
+.card-tx .card-title-modern {
+    color: #1E293B;
+}
+
+.card-tx .action-link-modern {
+    color: #059669;
+}
+
+.card-rep .card-title-modern {
+    color: #1E293B;
+}
+
+.card-rep .action-link-modern {
+    color: #0284C7;
+}
+
+/* Barra de seguridad inferior */
+.security-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: #334155;
+    font-size: 0.95rem;
+    font-weight: 500;
+}

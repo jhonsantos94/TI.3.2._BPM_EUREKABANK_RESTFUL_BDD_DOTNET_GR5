@@ -1,0 +1,16 @@
+{
+  "ExtendedData": {
+    "inputs": [
+      "http://localhost:8080/EurekaBank_Soap_Java_GR01/ServicioAutenticacion?wsdl"
+    ],
+    "collectionTypes": [
+      "System.Array",
+      "System.Collections.Generic.Dictionary`2"
+    ],
+    "namespaceMappings": [
+      "*, JavaSoapAuth"
+    ],
+    "targetFramework": "net10.0",
+    "typeReuseMode": "All"
+  }
+}

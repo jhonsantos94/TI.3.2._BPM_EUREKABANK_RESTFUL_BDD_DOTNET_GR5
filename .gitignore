@@ -1,0 +1,97 @@
+/U1/TI1.3 RESTFULL_JAVA_SINBDD_GR01/01 SERVIDOR/ConUni_Restfull_Java_GR01/nbproject/private/
+/U1/TI1.3 RESTFULL_JAVA_SINBDD_GR01/01 SERVIDOR/ConUni_Restfull_Java_GR01/build/
+
+# ===================================
+# NetBeans 21
+# ===================================
+nbproject/private/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+nbactions.xml
+nb-configuration.xml
+
+# ===================================
+# Maven
+# ===================================
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# ===================================
+# Java
+# ===================================
+*.class
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+hs_err_pid*
+
+# ===================================
+# Visual Studio / .NET
+# ===================================
+.vs/
+bin/
+obj/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.vsidx
+*.editorconfig
+.dtbcache.v2
+.futdcache.v2
+
+# ===================================
+# IDEs
+# ===================================
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+.vscode/
+
+# ===================================
+# Sistema Operativo
+# ===================================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===================================
+# Logs y Temporales
+# ===================================
+*.log
+*.tmp
+*.bak
+*.swp
+*~
+/U1/TI1.1 SOAP_JAVA_SINBDD_GR01/01. SERVIDOR/ConUni_Soap_Java_GR01/build/
+/U1/EUREKABANK/TI1.1 SOAP_JAVA_BDD_GR01/01 SERVIDOR/EurekaBank_Soap_Java_GR01/nbproject/private/
+/U1/EUREKABANK/TI1.1 SOAP_JAVA_BDD_GR01/01 SERVIDOR/EurekaBank_Soap_Java_GR01/build/
+/U1/EUREKABANK/TI1.3 RESTFULL_JAVA_BDD_GR01/01 SERVIDOR/EurekaBank_RestFull_Java_GR01/nbproject/private/
+/U1/EUREKABANK/TI1.3 RESTFULL_JAVA_BDD_GR01/01 SERVIDOR/EurekaBank_RestFull_Java_GR01/build/
+/U1/EXAMEN/02 CLIESC/Comercializadora/Comercializadora/Comercializadora/Platforms/Android/AndroidManifest.xml
+/U2/T.I.2.1 PAO202551_EUREKABANK_BDDNUBE_SOAP_JAVA_GR01/04. SERVIDOR/EurekaBank_Soap_Java_GR01/build/
+/U3/04. SERVIDOR/EurekaBank_Soap_Java_GR01/build/
+/04.SERVIDOR/EurekaBank_RestFull_Java_GR01/nbproject/private/
+/04.SERVIDOR/EurekaBank_RestFull_Java_GR05/nbproject/private/
+/04.SERVIDOR/EurekaBank_RestFull_Java_GR05/build/
+
+
+**/Properties/PublishProfiles/
+**/build/
+**/nbproject/private/
+[Rr]elease/
